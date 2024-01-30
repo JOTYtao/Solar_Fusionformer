@@ -1,0 +1,16 @@
+
+
+
+
+
+defaults:
+  - _self_
+  - hydra: default.yaml
+  - paths: default.yaml
+
+task_name: "calc_stats"
+
+deeplake_dataset_path: 
+station: 
+years: 
+save_path: 

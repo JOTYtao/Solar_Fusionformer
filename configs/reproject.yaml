@@ -1,0 +1,24 @@
+defaults:
+  - _self_
+  - hydra: default.yaml
+  - paths: default.yaml
+
+task_name: "reproject"
+
+path_zarr: 
+save_path: 
+chunks: 11
+
+resolution: [512, 512]
+lower_left_coords: [-6.64, 38.82]
+upper_right_coords: [10.51, 55.97]
+geostationary_proj_params:
+  proj: geos
+  lon_0: 9.5
+  h: 35785831
+  x_0: 0
+  y_0: 0
+  a: 6378169
+  rf: 295.488065897014
+  no_defs: null
+  type: crs

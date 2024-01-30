@@ -1,0 +1,27 @@
+_target_: data_provider.satellite_ts_module.TSContextDataModule
+dataset:
+  data_dir: ${paths.data_dir}
+  stats_path: ${paths.stats_path}
+  context_channels: null
+  optflow_channels: null
+  ts_channels: ['direct_n', 'diffuse', 'temp', 'rh', 'pressure', 'CSI']
+  ts_target_channels: ['CSI']
+  years:
+    train: ["2018_nonhrv","2019_nonhrv", "2020_nonhrv"]
+    val: ["2020_nonhrv_halfyear"]
+    test: [ "2021_nonhrv"]
+  stations:
+    train: ["CAB", "CNR", "PAL", "PAY"]
+    val: ["CAB", "CNR", "PAL", "PAY"]
+    test: ["CAB", "CNR", "PAL", "PAY"]
+  image_size: null
+  crop: null
+  seq_len: 24
+  label_len: 0
+  pred_len: 24
+  use_target: True
+
+# Dataloader specific
+batch_size: 8
+num_workers: 8
+pin_memory: False

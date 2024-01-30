@@ -1,0 +1,64 @@
+_target_: pl_models.FusionFormer.FusionFormer
+
+name: FusionFormer
+optimizer:
+  _target_: torch.optim.AdamW
+  _partial_: true
+  lr: 0.001
+  weight_decay: 0.05
+  betas: [0.9, 0.95]
+
+scheduler:
+  _target_: optim.cosine_warmup.CosineWarmupScheduler
+  _partial_: true
+  warmup: 10
+  max_iters: ${trainer.max_epochs}
+
+model:
+  _target_: models.my_model.FusionFormer.FusionFormer
+
+  image_size: [64, 64]
+  patch_size: [8, 8]
+  frequencies: [12, 31, 24, 60]
+  bands_number: 11
+  dim_head: 64
+  dim: 64
+  batch_size: 8
+  attention_head_size: 8
+  satellite_masking_ratio: 0.85
+  timeseries_masking_ratio: 0
+  output_size: 1
+  encoder_input_satellite: {"0": 24, "1": 24, "2": 24, "3": 24, "4": 24, "5": 24, "6": 24, "7": 24, "8": 24, "9": 24, "10": 24}
+  satellite_flags: {"0": False, "1": False, "2": False, "3": False, "4": False, "5": False, "6": False, "7": False, "8": False, "9": False, "10": False}
+  encoder_input_timeseries: {"0": 24, "1": 24, "2": 24, "3": 24, "4": 24, "5": 24, "6": 24, "7": 24, "8": 24, "9": 24, "10": 24, "11": 24, "12": 24, "13": 24, "14": 24}
+  timeseries_flags: {"0": False, "1": False, "2": False, "3": False, "4": False, "5": False, "6": False, "7": False, "8": False, "9": False, "10": False, "11": False, "12": False, "13": False, "14": False}
+  input_length: 24
+  output_length: 24
+  lstm_layers: 3
+  dropout: 0.1
+metrics:
+  train:
+    rmse:
+      _target_: torchmetrics.MeanSquaredError
+      squared: False
+    mae:
+      _target_: torchmetrics.MeanAbsoluteError
+    mape:
+      _target_: torchmetrics.MeanAbsolutePercentageError
+      epsilon: 1
+  val:
+    rmse:
+      _target_: torchmetrics.MeanSquaredError
+      squared: False
+    mae:
+      _target_: torchmetrics.MeanAbsoluteError
+    mape:
+      _target_: torchmetrics.MeanAbsolutePercentageError
+      epsilon: 1
+criterion: 
+  _target_: torch.nn.MSELoss
+monitor: val/rmse
+use_dp: True
+collapse_heads: True
+
+  
